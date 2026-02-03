@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>GestaGuilde - Idle RPG</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="game-container">
+        <header>
+            <h1>Ma Guilde d'Aventuriers</h1>
+            <div class="stats">
+                <span>Or : <b id="gold">100</b> 🪙</span>
+                <span>Renommée : <b id="fame">0</b> ⭐</span>
+            </div>
+        </header>
+
+        <main>
+            <section id="adventurers">
+                <h2>Recruter</h2>
+                <div id="recruit-list">
+                    </div>
+            </section>
+
+            <section id="active-guild">
+                <h2>Membres Actifs (<span id="member-count">0</span>)</h2>
+                <div id="guild-members"></div>
+            </section>
+        </main>
+
+        <div id="log-container">
+            <h3>Journal de quêtes</h3>
+            <ul id="logs"></ul>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

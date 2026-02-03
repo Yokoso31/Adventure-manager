@@ -13,36 +13,31 @@ let state = {
 function init() {
     loadGame();
     renderCandidates();
-    updateUI();
     // Boucle de gain d'or automatique toutes les secondes
     setInterval(updateGame, 1000);
 }
 
 function saveGame() {
-    try {
-        const saveData = {
-            gold: state.gold,
-            fame: state.fame,
-            members: state.members
-        };
-        localStorage.setItem('gestaguilde_save', JSON.stringify(saveData));
-    } catch (e) {
-        console.warn("Sauvegarde impossible :", e);
-    }
+    const saveData = {
+        gold: state.gold,
+        fame: state.fame,
+        members: state.members
+    };
+    localStorage.setItem('gestaGuildeSave', JSON.stringify(saveData));
 }
 
 function loadGame() {
-    try {
-        const saved = localStorage.getItem('gestaguilde_save');
-        if (saved) {
-            const parsed = JSON.parse(saved);
-            state.gold = parsed.gold;
-            state.fame = parsed.fame;
-            state.members = parsed.members;
-            addLog("Progression chargée !");
+    const saved = localStorage.getItem('gestaGuildeSave');
+    if (saved) {
+        try {
+            const data = JSON.parse(saved);
+            state.gold = data.gold;
+            state.fame = data.fame;
+            state.members = data.members;
+            addLog("Partie chargée !");
+        } catch (e) {
+            console.error("Erreur de chargement de la sauvegarde", e);
         }
-    } catch (e) {
-        console.warn("Chargement impossible :", e);
     }
 }
 
@@ -63,7 +58,6 @@ function buyMember(id) {
         state.members.push({...candidate});
         addLog(`${candidate.name} a rejoint la guilde !`);
         updateUI();
-        saveGame();
     } else {
         addLog("Pas assez d'or !");
     }

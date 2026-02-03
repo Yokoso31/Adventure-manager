@@ -11,9 +11,39 @@ let state = {
 };
 
 function init() {
+    loadGame();
     renderCandidates();
+    updateUI();
     // Boucle de gain d'or automatique toutes les secondes
     setInterval(updateGame, 1000);
+}
+
+function saveGame() {
+    try {
+        const saveData = {
+            gold: state.gold,
+            fame: state.fame,
+            members: state.members
+        };
+        localStorage.setItem('gestaguilde_save', JSON.stringify(saveData));
+    } catch (e) {
+        console.warn("Sauvegarde impossible :", e);
+    }
+}
+
+function loadGame() {
+    try {
+        const saved = localStorage.getItem('gestaguilde_save');
+        if (saved) {
+            const parsed = JSON.parse(saved);
+            state.gold = parsed.gold;
+            state.fame = parsed.fame;
+            state.members = parsed.members;
+            addLog("Progression chargée !");
+        }
+    } catch (e) {
+        console.warn("Chargement impossible :", e);
+    }
 }
 
 function renderCandidates() {
@@ -33,6 +63,7 @@ function buyMember(id) {
         state.members.push({...candidate});
         addLog(`${candidate.name} a rejoint la guilde !`);
         updateUI();
+        saveGame();
     } else {
         addLog("Pas assez d'or !");
     }
@@ -43,6 +74,7 @@ function updateGame() {
         state.gold += m.income;
     });
     updateUI();
+    saveGame();
 }
 
 function updateUI() {
